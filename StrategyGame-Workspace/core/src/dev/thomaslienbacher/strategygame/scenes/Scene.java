@@ -1,0 +1,56 @@
+package dev.thomaslienbacher.strategygame.scenes;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import dev.thomaslienbacher.strategygame.Game;
+
+/**
+ * Used to manage everything what happens in a scene
+ *
+ * @author Thomas Lienbacher
+ */
+public abstract class Scene implements InputProcessor {
+
+    private GameStates state;
+    private Stage uistage;
+
+    public Scene(GameStates state) {
+        this.state = state;
+        this.uistage = new Stage(Game.getGuiViewport(), Game.getBatch());
+    }
+
+    public abstract void loadAssets(AssetManager assetManager);
+
+    public abstract void create(AssetManager assetManager);
+
+    public void update(float delta) {
+        uistage.act(delta);
+    }
+
+    public abstract void render(SpriteBatch batch);
+
+    public final void renderGUI() {
+        uistage.getBatch().end();
+        uistage.draw();
+    }
+
+    public void dispose() {
+        uistage.dispose();
+    }
+
+    public final void switchTo() {
+        Game.setGameState(this.state);
+        Gdx.input.setInputProcessor(this);
+    }
+
+    public final GameStates getState() {
+        return state;
+    }
+
+    public final Stage getUistage() {
+        return uistage;
+    }
+}

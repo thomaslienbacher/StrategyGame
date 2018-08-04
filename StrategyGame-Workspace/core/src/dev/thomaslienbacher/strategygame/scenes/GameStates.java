@@ -1,4 +1,4 @@
-package dev.thomaslienbacher.strategygame.scene;
+package dev.thomaslienbacher.strategygame.scenes;
 
 /**
  * Holds all the states.
@@ -7,5 +7,5 @@ package dev.thomaslienbacher.strategygame.scene;
  * @author Thomas Lienbacher
  */
 public enum GameStates {
-	STARTUP, MENU, GAME
+	STARTUP, MAINMENU, GAME
 }

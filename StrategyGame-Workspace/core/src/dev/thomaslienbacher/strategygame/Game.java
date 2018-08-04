@@ -1,6 +1,5 @@
 package dev.thomaslienbacher.strategygame;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,13 +12,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
 import dev.thomaslienbacher.strategygame.assets.FontManager;
-import dev.thomaslienbacher.strategygame.scene.GameStates;
+import dev.thomaslienbacher.strategygame.scenes.GameStates;
+import dev.thomaslienbacher.strategygame.scenes.MainMenuScene;
+import dev.thomaslienbacher.strategygame.scenes.Scene;
+import dev.thomaslienbacher.strategygame.scenes.StartupScene;
 
 
 /**
- * Logo only shows for 0.1 seconds because of easier development change to 3 seconds when shipping
  * 
  * @author Thomas Lienbacher
  */
@@ -28,65 +28,61 @@ public class Game extends ApplicationAdapter {
 	//constants
 	public static final int WIDTH = 1920;
 	public static final int HEIGHT = 1080; //WIDTH / 9 * 16;
+	public static final float WIDTHF = 1920;
+	public static final float HEIGHTF = 1080; //WIDTH / 9 * 16;
 	public static final float ASPECT_RATIO = (float)WIDTH / (float)HEIGHT;
 	public static final String APP_NAME = "Strategy Game";
 	public static final String PREFERENCES = "strategygame-prefs";
 
 	private static SpriteBatch batch;
-	private static StretchViewport viewport;
+	private static StretchViewport gameViewport;
 	private static StretchViewport guiViewport;
-	private static OrthographicCamera cam;
+	private static OrthographicCamera gameCam;
 	private static OrthographicCamera guiCam;
 	private static GameStates gameState;
 	private static AssetManager assetManager;
 	private static boolean firstFrame;
 	private static Preferences preferences;
-	private static int highscore;
 
 	//Scenes
-	/*private static StartupScene startupScene;
-	private static MenuScene menuScene;
-	private static GameScene gameScene;
-	private static PauseScene pauseScene;*/
+	private static StartupScene startupScene;
+	private static MainMenuScene mainMenuScene;
 
 	//debug
 	public final static boolean DEBUG = false;
 
 	@Override
 	public void create () {
-		//Gdx.input.setCatchBackKey(true);
-
-		gameState = GameStates.STARTUP;
+	    gameState = GameStates.STARTUP;
 		firstFrame = true;
-		highscore = 0;
 
 		assetManager = new AssetManager();
 		Texture.setAssetManager(assetManager);
 
-		//cam and viewport
-		cam = new OrthographicCamera();
-		cam.setToOrtho(false, WIDTH, HEIGHT);
-		viewport = new StretchViewport(WIDTH, HEIGHT, cam);
+		//gameCam and gameViewport
+		gameCam = new OrthographicCamera();
+		gameCam.setToOrtho(false, WIDTH, HEIGHT);
+		gameViewport = new StretchViewport(WIDTH, HEIGHT, gameCam);
 
 		guiCam = new OrthographicCamera();
 		guiCam.setToOrtho(false, WIDTH, HEIGHT);
 		guiViewport = new StretchViewport(WIDTH, HEIGHT, guiCam);
 
 		//resize
-		if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
-			float d = 0.85f;
-			//Gdx.graphics.setWindowedMode((int) (Gdx.graphics.getDisplayMode().height * d * ASPECT_RATIO), (int) (Gdx.graphics.getDisplayMode().height * d));
+        if(Game.DEBUG) {
+			float d = 0.6f;
+			Gdx.graphics.setWindowedMode((int) (Gdx.graphics.getDisplayMode().height * d * ASPECT_RATIO), (int) (Gdx.graphics.getDisplayMode().height * d));
 		}
 
 		//batch
 		batch = new SpriteBatch();
 
 		//setup loadingscene
-		/*startupScene = new StartupScene(GameStates.STARTUP);
+		startupScene = new StartupScene(GameStates.STARTUP);
 		startupScene.loadAssets(assetManager);
 		assetManager.finishLoading(); //this should never be called but this is an exception
 		startupScene.create(assetManager);
-		startupScene.switchTo();*/
+		startupScene.switchTo();
 	}
 
 	@Override
@@ -94,114 +90,87 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.5f,0.5f,0.5f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		cam.update();
+		gameCam.update();
 		batch.begin();
 
 		if(gameState == GameStates.STARTUP){
-			batch.setProjectionMatrix(cam.combined);
-			//startupScene.render(batch);
+			batch.setProjectionMatrix(gameCam.combined);
+			startupScene.render(batch);
+			startupScene.renderGUI();
 		}
 
-		if(gameState == GameStates.MENU){
-			batch.setProjectionMatrix(cam.combined);
-			//menuScene.render(batch);
-
-			batch.setProjectionMatrix(guiCam.combined);
-			//menuScene.renderGUI(batch);
+		if(gameState == GameStates.MAINMENU){
+			batch.setProjectionMatrix(gameCam.combined);
+			mainMenuScene.render(batch);
+			mainMenuScene.renderGUI();
 		}
 
-		if(gameState == GameStates.GAME){
-			batch.setProjectionMatrix(cam.combined);
-			//gameScene.render(batch);
-
-			batch.setProjectionMatrix(guiCam.combined);
-			//gameScene.renderGUI(batch);
-		}
-
-		batch.end();
+		/**
+		 *  batch doesnt end since Batch is ended in {@link Scene#getUistage()}
+		 */
 
 		update(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		viewport.update(width, height);
+		gameViewport.update(width, height);
 		guiViewport.update(width, height);
 	}
 
 	@Override
 	public void pause() {
-		saveGame();
 	}
 
 	@Override
 	public void resume() {}
 
 	public void update(float delta){
-		if(delta > 0.2f) delta = 0.2f;
-
 		if(firstFrame){
 			//scenes
-			/*menuScene = new MenuScene(GameStates.MENU);
-			gameScene = new GameScene(GameStates.GAME);
-			pauseScene = new PauseScene(GameStates.PAUSE, gameScene);*/
+			mainMenuScene = new MainMenuScene(GameStates.MAINMENU);
 
 			//load all assets
 			FontManager.loadFonts();
-			/*menuScene.loadAssets(assetManager);
-			gameScene.loadAssets(assetManager);
-			pauseScene.loadAssets(assetManager);*/
+			mainMenuScene.loadAssets(assetManager);
 
 			//load prefs
 			preferences = Gdx.app.getPreferences(PREFERENCES);
-			highscore = Game.getPreferences().getInteger("highscore", 0);
-
 			firstFrame = false;
 		}
 
 		if(gameState == GameStates.STARTUP){
-			/*startupScene.update(delta);
+			startupScene.update(delta);
 			assetManager.update();
-			if(assetManager.getProgress() >= 1 && startupScene.logoTime >= StartupScene.LOGO_DISLAY_TIME){
-				menuScene.switchTo();
+			if(assetManager.getProgress() >= 1 && startupScene.getLogoTime() >= StartupScene.LOGO_DISPLAY_TIME){
+				mainMenuScene.switchTo();
 				startupScene.dispose();
 
-				menuScene.create(assetManager);
-				gameScene.create(assetManager);
-				pauseScene.create(assetManager);
-			}*/
+				mainMenuScene.create(assetManager);
+			}
 		}
 
-		/*if(gameState == GameStates.MENU) menuScene.update(delta);
-		if(gameState == GameStates.GAME) gameScene.update(delta);
-		if(gameState == GameStates.PAUSE) pauseScene.update(delta);*/
+		if(gameState == GameStates.MAINMENU) mainMenuScene.update(delta);
 
 		//debug
 		if(DEBUG) {
 			if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
+			Gdx.app.log("State", gameState.name());
 		}
 	}
 
 	@Override
 	public void dispose () {
-		/*menuScene.dispose();
-		gameScene.dispose();
-		pauseScene.dispose();*/
+		mainMenuScene.dispose();
 
 		batch.dispose();
 		FontManager.dispose();
 		assetManager.dispose();
-		saveGame();
-	}
-
-	public void saveGame() {
-		Game.getPreferences().putInteger("highscore", highscore);
-		preferences.flush();
 	}
 
 	public static Vector2 cameraUnproject(int screenX, int screenY) {
-		Vector3 vec = new Vector3(screenX, screenY, cam.position.z);
-		cam.unproject(vec);
+		Vector3 vec = new Vector3(screenX, screenY, gameCam.position.z);
+		gameCam.unproject(vec);
 		return new Vector2(vec.x, vec.y);
 	}
 
@@ -220,8 +189,8 @@ public class Game extends ApplicationAdapter {
 		return batch;
 	}
 
-	public static OrthographicCamera getCam() {
-		return cam;
+	public static OrthographicCamera getGameCam() {
+		return gameCam;
 	}
 
 	public static OrthographicCamera getGuiCam() { return guiCam; }
@@ -238,28 +207,20 @@ public class Game extends ApplicationAdapter {
 		return firstFrame;
 	}
 
-	/*public static StartupScene getStartupScene() {
+	public static StartupScene getStartupScene() {
 		return startupScene;
 	}
 
-	public static MenuScene getMenuScene() {
-		return menuScene;
+	public static MainMenuScene getMainMenuScene() {
+		return mainMenuScene;
 	}
-
-	public static GameScene getGameScene() {
-		return gameScene;
-	}
-
-	public static PauseScene getPauseScene() {
-		return pauseScene;
-	}*/
 
 	public static void setGameState(GameStates gameState) {
 		Game.gameState = gameState;
 	}
 
-	public static StretchViewport getViewport() {
-		return viewport;
+	public static StretchViewport getGameViewport() {
+		return gameViewport;
 	}
 
 	public static StretchViewport getGuiViewport() {
@@ -268,13 +229,5 @@ public class Game extends ApplicationAdapter {
 
 	public static Preferences getPreferences() {
 		return preferences;
-	}
-
-	public static int getHighscore() {
-		return highscore;
-	}
-
-	public static void setHighscore(int highscore) {
-		Game.highscore = highscore;
 	}
 }
