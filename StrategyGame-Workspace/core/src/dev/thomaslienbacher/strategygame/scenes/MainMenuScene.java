@@ -1,14 +1,23 @@
 package dev.thomaslienbacher.strategygame.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.kotcrab.vis.ui.FocusManager;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import dev.thomaslienbacher.strategygame.Game;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
 import dev.thomaslienbacher.strategygame.utils.Utils;
+
+import java.util.Locale;
 
 /**
  * Main menu right after the StartupScene
@@ -29,6 +38,21 @@ public class MainMenuScene extends Scene {
     @Override
     public void create(AssetManager assetManager) {
 
+        for(int i = 0; i < 4; i++) {
+            VisTextButton tb = new VisTextButton("Start " + i);
+            tb.setBounds(20 + 300 * i, 20, 200, 200);
+            tb.setFocusBorderEnabled(true);
+            final String s = String.valueOf(i);
+
+            tb.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.app.log("Action", s);
+                }
+            });
+            uistage.addActor(tb);
+        }
+
     }
 
     @Override
@@ -38,7 +62,9 @@ public class MainMenuScene extends Scene {
 
     @Override
     public void render(SpriteBatch batch) {
-        FontManager.get(200).renderCentered(batch, "Hallo", Game.WIDTHF / 2, Game.HEIGHTF / 2, Color.BLACK);
+        FontManager.get(200).renderCentered(batch, Data.getI18N("main_menu_title"), Game.WIDTHF / 2, Game.HEIGHTF / 2 + 200, Color.BLACK);
+        FontManager.get(100).renderCentered(batch, Locale.getDefault().toString(), Game.WIDTHF / 2, Game.HEIGHTF / 2, Color.BLACK);
+        FontManager.get(70).renderCentered(batch, "Made by " + Data.getI18N("author"), Game.WIDTHF / 2, Game.HEIGHTF / 2 - 100, new Color(0.1f, 0.4f, 0.5f, 1));
     }
 
     @Override

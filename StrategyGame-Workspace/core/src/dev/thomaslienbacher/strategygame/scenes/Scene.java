@@ -1,6 +1,7 @@
 package dev.thomaslienbacher.strategygame.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +16,7 @@ import dev.thomaslienbacher.strategygame.Game;
 public abstract class Scene implements InputProcessor {
 
     private GameStates state;
-    private Stage uistage;
+    protected Stage uistage;
 
     public Scene(GameStates state) {
         this.state = state;
@@ -43,7 +44,12 @@ public abstract class Scene implements InputProcessor {
 
     public final void switchTo() {
         Game.setGameState(this.state);
-        Gdx.input.setInputProcessor(this);
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(0, this);
+        inputMultiplexer.addProcessor(1, uistage);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     public final GameStates getState() {

@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.kotcrab.vis.ui.VisUI;
+import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
 import dev.thomaslienbacher.strategygame.scenes.GameStates;
 import dev.thomaslienbacher.strategygame.scenes.MainMenuScene;
@@ -53,6 +55,7 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		VisUI.load(VisUI.SkinScale.X2);
 	    gameState = GameStates.STARTUP;
 		firstFrame = true;
 
@@ -132,6 +135,7 @@ public class Game extends ApplicationAdapter {
 
 			//load all assets
 			FontManager.loadFonts();
+			Data.loadI18N(assetManager);
 			mainMenuScene.loadAssets(assetManager);
 
 			//load prefs
@@ -147,6 +151,7 @@ public class Game extends ApplicationAdapter {
 				startupScene.dispose();
 
 				mainMenuScene.create(assetManager);
+				Data.createI18N(assetManager);
 			}
 		}
 
@@ -155,7 +160,6 @@ public class Game extends ApplicationAdapter {
 		//debug
 		if(DEBUG) {
 			if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
-			Gdx.app.log("State", gameState.name());
 		}
 	}
 
@@ -166,6 +170,7 @@ public class Game extends ApplicationAdapter {
 		batch.dispose();
 		FontManager.dispose();
 		assetManager.dispose();
+		VisUI.dispose();
 	}
 
 	public static Vector2 cameraUnproject(int screenX, int screenY) {
