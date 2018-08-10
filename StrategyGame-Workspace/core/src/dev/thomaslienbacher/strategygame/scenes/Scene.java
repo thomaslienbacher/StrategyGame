@@ -50,6 +50,10 @@ public abstract class Scene implements InputProcessor {
         inputMultiplexer.addProcessor(1, uistage);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
+
+        if(Game.DEBUG) {
+            Gdx.graphics.setTitle(getClass().getName());
+        }
     }
 
     public final GameStates getState() {

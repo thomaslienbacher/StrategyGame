@@ -2,7 +2,6 @@ package dev.thomaslienbacher.strategygame.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.I18NBundle;
 
 /**

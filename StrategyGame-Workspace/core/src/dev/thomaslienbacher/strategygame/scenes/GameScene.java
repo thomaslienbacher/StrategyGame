@@ -1,26 +1,16 @@
 package dev.thomaslienbacher.strategygame.scenes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import dev.thomaslienbacher.strategygame.Game;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
 
-import java.util.Locale;
+public class GameScene extends Scene {
 
-/**
- * Main menu right after the StartupScene
- *
- * @author Thomas Lienbacher
- */
-public class MainMenuScene extends Scene {
 
-    public MainMenuScene(GameStates state) {
+    public GameScene(GameStates state) {
         super(state);
     }
 
@@ -31,15 +21,7 @@ public class MainMenuScene extends Scene {
 
     @Override
     public void create(AssetManager assetManager) {
-        VisTextButton playButton = new VisTextButton(Data.getI18N("play_button"));
-        playButton.setBounds(20, 20, 200, 100);
-        playButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Game.getGameScene().switchTo();
-            }
-        });
-        uistage.addActor(playButton);
+
     }
 
     @Override
@@ -49,9 +31,7 @@ public class MainMenuScene extends Scene {
 
     @Override
     public void render(SpriteBatch batch) {
-        FontManager.get(200).renderCentered(batch, Data.getI18N("main_menu_title"), Game.WIDTHF / 2, Game.HEIGHTF / 2 + 200, Color.BLACK);
-        FontManager.get(100).renderCentered(batch, Locale.getDefault().toString(), Game.WIDTHF / 2, Game.HEIGHTF / 2, Color.BLACK);
-        FontManager.get(70).renderCentered(batch, Data.getI18N("author"), Game.WIDTHF / 2, Game.HEIGHTF / 2 - 100, new Color(0.1f, 0.4f, 0.5f, 1));
+        FontManager.get(40).renderCentered(batch, GameScene.class.getName(), Game.WIDTHF / 2, Game.HEIGHTF / 2 + 200, Color.BLACK);
     }
 
     @Override

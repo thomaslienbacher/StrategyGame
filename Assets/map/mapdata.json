@@ -1,0 +1,170 @@
+{
+	"provinces" : [
+		{
+			"id" : 1,
+			"colorcode" : [2, 0, 0]
+		},
+		{
+			"id" : 2,
+			"colorcode" : [2, 1, 0]
+		},
+		{
+			"id" : 3,
+			"colorcode" : [2, 2, 0]
+		},
+		{
+			"id" : 4,
+			"colorcode" : [2, 3, 0]
+		},
+		{
+			"id" : 5,
+			"colorcode" : [2, 4, 0]
+		},
+		{
+			"id" : 6,
+			"colorcode" : [2, 5, 0]
+		},
+		{
+			"id" : 7,
+			"colorcode" : [2, 6, 0]
+		},
+		{
+			"id" : 8,
+			"colorcode" : [2, 7, 0]
+		},
+		{
+			"id" : 9,
+			"colorcode" : [2, 8, 0]
+		},
+		{
+			"id" : 10,
+			"colorcode" : [2, 9, 0]
+		},
+		{
+			"id" : 11,
+			"colorcode" : [2, 10, 0]
+		},
+		{
+			"id" : 12,
+			"colorcode" : [2, 11, 0]
+		},
+		{
+			"id" : 13,
+			"colorcode" : [2, 12, 0]
+		},
+		{
+			"id" : 14,
+			"colorcode" : [2, 13, 0]
+		},
+		{
+			"id" : 15,
+			"colorcode" : [2, 14, 0]
+		},
+		{
+			"id" : 16,
+			"colorcode" : [2, 15, 0]
+		},
+		{
+			"id" : 17,
+			"colorcode" : [2, 16, 0]
+		},
+		{
+			"id" : 18,
+			"colorcode" : [2, 17, 0]
+		},
+		{
+			"id" : 19,
+			"colorcode" : [2, 18, 0]
+		},
+		{
+			"id" : 20,
+			"colorcode" : [2, 19, 0]
+		},
+		{
+			"id" : 21,
+			"colorcode" : [2, 20, 0]
+		},
+		{
+			"id" : 22,
+			"colorcode" : [2, 21, 0]
+		},
+		{
+			"id" : 23,
+			"colorcode" : [2, 22, 0]
+		},
+		{
+			"id" : 24,
+			"colorcode" : [2, 23, 0]
+		}
+	],
+	
+	"states" : [
+		{
+			"id" : 1,
+			"name" : "Těříž",
+			"color" : [255, 0, 46],
+			"occupied" : [1]
+		},
+		{
+			"id" : 2,
+			"name" : "Năza",
+			"color" : [255, 124, 10],
+			"occupied" : [2]
+		},
+		{
+			"id" : 3,
+			"name" : "Toławy",
+			"color" : [255, 216, 0],
+			"occupied" : [3]
+		},
+		{
+			"id" : 4,
+			"name" : "Деспиа",
+			"color" : [0, 165, 135],
+			"occupied" : [4, 5, 6]
+		},
+		{
+			"id" : 5,
+			"name" : "Табреиваниа",
+			"color" : [109, 127, 63],
+			"occupied" : [7, 10, 11]
+		},
+		{
+			"id" : 6,
+			"name" : "Сwиам Стые",
+			"color" : [255, 127, 127],
+			"occupied" : [8, 9, 14, 15]
+		},
+		{
+			"id" : 7,
+			"name" : "Ost Karamanen",
+			"color" : [183, 0, 134],
+			"occupied" : [13, 24, 16, 17]
+		},
+		{
+			"id" : 8,
+			"name" : "West Karamanen",
+			"color" : [0, 38, 255],
+			"occupied" : [21, 22, 12]
+		},
+		{
+			"id" : 9,
+			"name" : "Pralová",
+			"color" : [178, 0, 255],
+			"occupied" : [23]
+		},
+		{
+			"id" : 10,
+			"name" : "Ramänien",
+			"color" : [124, 57, 57],
+			"occupied" : [20]
+		},
+		{
+			"id" : 11,
+			"name" : "Eckrasch",
+			"color" : [0, 205, 76],
+			"occupied" : [18, 19]
+		}
+	]
+
+}

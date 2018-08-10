@@ -15,7 +15,7 @@ public class DesktopLauncher {
 
 		config.height = Game.HEIGHT;
 		config.width = Game.WIDTH;
-		config.title = Game.APP_NAME + " Desktop";
+		config.title = DesktopLauncher.class.getName();
 		config.samples = 4;
 		config.allowSoftwareMode = false;
 		config.fullscreen = true;

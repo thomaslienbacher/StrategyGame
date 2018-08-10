@@ -15,10 +15,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
-import dev.thomaslienbacher.strategygame.scenes.GameStates;
-import dev.thomaslienbacher.strategygame.scenes.MainMenuScene;
-import dev.thomaslienbacher.strategygame.scenes.Scene;
-import dev.thomaslienbacher.strategygame.scenes.StartupScene;
+import dev.thomaslienbacher.strategygame.scenes.*;
 
 
 /**
@@ -33,7 +30,6 @@ public class Game extends ApplicationAdapter {
 	public static final float WIDTHF = 1920;
 	public static final float HEIGHTF = 1080; //WIDTH / 9 * 16;
 	public static final float ASPECT_RATIO = (float)WIDTH / (float)HEIGHT;
-	public static final String APP_NAME = "Strategy Game";
 	public static final String PREFERENCES = "strategygame-prefs";
 
 	private static SpriteBatch batch;
@@ -49,9 +45,10 @@ public class Game extends ApplicationAdapter {
 	//Scenes
 	private static StartupScene startupScene;
 	private static MainMenuScene mainMenuScene;
+	private static GameScene gameScene;
 
 	//debug
-	public final static boolean DEBUG = false;
+	public final static boolean DEBUG = true;
 
 	@Override
 	public void create () {
@@ -73,7 +70,7 @@ public class Game extends ApplicationAdapter {
 
 		//resize
         if(Game.DEBUG) {
-			float d = 0.6f;
+			float d = 0.86f;
 			Gdx.graphics.setWindowedMode((int) (Gdx.graphics.getDisplayMode().height * d * ASPECT_RATIO), (int) (Gdx.graphics.getDisplayMode().height * d));
 		}
 
@@ -108,6 +105,12 @@ public class Game extends ApplicationAdapter {
 			mainMenuScene.renderGUI();
 		}
 
+		if(gameState == GameStates.GAME){
+			batch.setProjectionMatrix(gameCam.combined);
+			gameScene.render(batch);
+			gameScene.renderGUI();
+		}
+
 		/**
 		 *  batch doesnt end since Batch is ended in {@link Scene#getUistage()}
 		 */
@@ -132,11 +135,13 @@ public class Game extends ApplicationAdapter {
 		if(firstFrame){
 			//scenes
 			mainMenuScene = new MainMenuScene(GameStates.MAINMENU);
+			gameScene = new GameScene(GameStates.GAME);
 
 			//load all assets
 			FontManager.loadFonts();
 			Data.loadI18N(assetManager);
 			mainMenuScene.loadAssets(assetManager);
+			gameScene.loadAssets(assetManager);
 
 			//load prefs
 			preferences = Gdx.app.getPreferences(PREFERENCES);
@@ -150,12 +155,14 @@ public class Game extends ApplicationAdapter {
 				mainMenuScene.switchTo();
 				startupScene.dispose();
 
-				mainMenuScene.create(assetManager);
 				Data.createI18N(assetManager);
+				mainMenuScene.create(assetManager);
+				gameScene.create(assetManager);
 			}
 		}
 
 		if(gameState == GameStates.MAINMENU) mainMenuScene.update(delta);
+		if(gameState == GameStates.GAME) gameScene.update(delta);
 
 		//debug
 		if(DEBUG) {
@@ -166,6 +173,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		mainMenuScene.dispose();
+		gameScene.dispose();
 
 		batch.dispose();
 		FontManager.dispose();
@@ -218,6 +226,10 @@ public class Game extends ApplicationAdapter {
 
 	public static MainMenuScene getMainMenuScene() {
 		return mainMenuScene;
+	}
+
+	public static GameScene getGameScene() {
+		return gameScene;
 	}
 
 	public static void setGameState(GameStates gameState) {
