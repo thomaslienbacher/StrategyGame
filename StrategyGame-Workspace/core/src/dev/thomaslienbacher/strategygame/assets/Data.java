@@ -38,4 +38,9 @@ public class Data {
 
     //fonts
     public static final String FONT = "fonts/DroidSansMono.ttf";
+
+    //map
+    public static final String MAP_COLORCODE = "map/map_colorcode.png";
+    public static final String MAPDATA_JSON = "map/map_data.json";
+
 }

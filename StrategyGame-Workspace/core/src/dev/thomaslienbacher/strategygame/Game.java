@@ -181,19 +181,6 @@ public class Game extends ApplicationAdapter {
 		VisUI.dispose();
 	}
 
-	public static Vector2 cameraUnproject(int screenX, int screenY) {
-		Vector3 vec = new Vector3(screenX, screenY, gameCam.position.z);
-		gameCam.unproject(vec);
-		return new Vector2(vec.x, vec.y);
-	}
-
-	public static Vector2 toScreenCoords(int screenX, int screenY) {
-		Vector2 vec = new Vector2();
-		vec.x = (float)screenX / (float)Gdx.graphics.getWidth() * Game.WIDTH;
-		vec.y = -((float)screenY / (float)Gdx.graphics.getHeight() * Game.HEIGHT) + Game.HEIGHT;
-		return vec;
-	}
-
 	public static float getDelta(){
 		return Gdx.graphics.getDeltaTime();
 	}
