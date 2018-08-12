@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.kotcrab.vis.ui.util.ColorUtils;
 import dev.thomaslienbacher.strategygame.assets.Data;
+import dev.thomaslienbacher.strategygame.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -22,11 +23,12 @@ public class Map {
 
     private ArrayList<Province> provinces = new ArrayList<Province>();
     private ArrayList<State> states = new ArrayList<State>();
-    private Texture colorcode;
+    private Pixmap colorcode;
     private Texture mapTexture;
 
     public Map(Texture colorcodeTexture) {
-        this.colorcode = colorcodeTexture;
+        colorcodeTexture.getTextureData().prepare();
+        this.colorcode = colorcodeTexture.getTextureData().consumePixmap();
 
         JsonValue root = new JsonReader().parse(Gdx.files.internal(Data.MAPDATA_JSON));
 
@@ -62,10 +64,7 @@ public class Map {
         pixmap.setColor(BACKGROUND);
         pixmap.fill();
 
-        if(!colorcode.getTextureData().isPrepared()) colorcode.getTextureData().prepare();
-        Pixmap cc = colorcode.getTextureData().consumePixmap();
-        pixmap.drawPixmap(cc, 0, 0);
-        cc.dispose();
+        pixmap.drawPixmap(colorcode, 0, 0);
 
         //draw states
         for(int x = 0; x < pixmap.getWidth(); x++) {
@@ -79,7 +78,10 @@ public class Map {
             }
         }
 
-        if(mapTexture == null) mapTexture = new Texture(pixmap);
+        if(mapTexture == null) {
+            mapTexture = new Texture(pixmap);
+            Utils.setLinearFilter(mapTexture);
+        }
         else mapTexture.draw(pixmap, 0, 0);
         pixmap.dispose();
     }
@@ -89,22 +91,18 @@ public class Map {
     }
 
     public void dispose() {
+        colorcode.dispose();
         mapTexture.dispose();
     }
 
     public State getState(int x, int y) {
-        return getProvince(x, y).getOccupier();
+        Province p = getProvince(x, y);
+        return p != null ? p.getOccupier() : null;
     }
 
     public Province getProvince(int x, int y) {
-        if(!colorcode.getTextureData().isPrepared()) colorcode.getTextureData().prepare();
-        Pixmap cc = colorcode.getTextureData().consumePixmap();
-
-        int c = cc.getPixel(x, cc.getHeight() - y);
-        Province p = provinces.get((c >> 16) & 0xFF);
-
-        cc.dispose();
-
-        return p;
+        int c = colorcode.getPixel(x, colorcode.getHeight() - y);
+        if((c >> 24) == 2) return provinces.get((c >> 16) & 0xFF);
+        else return null;
     }
 }

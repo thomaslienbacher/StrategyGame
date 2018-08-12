@@ -11,11 +11,19 @@ import dev.thomaslienbacher.strategygame.Game;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
 import dev.thomaslienbacher.strategygame.gameobjects.Map;
+import dev.thomaslienbacher.strategygame.ui.StateWindow;
 import dev.thomaslienbacher.strategygame.utils.CameraController;
 
 public class GameScene extends Scene {
 
+    //gameobjects
     private Map map;
+
+    //ui
+    private StateWindow stateWindow;
+
+    //misc
+    private CameraController cameraController;
 
     public GameScene(GameStates state) {
         super(state);
@@ -29,6 +37,11 @@ public class GameScene extends Scene {
     @Override
     public void create(AssetManager assetManager) {
         map = new Map((Texture) assetManager.get(Data.MAP_COLORCODE));
+
+        stateWindow = new StateWindow("State");
+        uistage.addActor(stateWindow);
+
+        cameraController = new CameraController(Game.getGameCam());
     }
 
     @Override
@@ -40,13 +53,13 @@ public class GameScene extends Scene {
         if(Gdx.input.isKeyPressed(Input.Keys.S)) Game.getGameCam().position.y -= w;
         if(Gdx.input.isKeyPressed(Input.Keys.A)) Game.getGameCam().position.x -= w;
         if(Gdx.input.isKeyPressed(Input.Keys.D)) Game.getGameCam().position.x += w;
+
+        //Gdx.app.log("M", ""+Game.getGameCam().zoom);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         map.render(batch);
-
-        FontManager.get(40).renderCentered(batch, GameScene.class.getName(), Game.WIDTHF / 2, Game.HEIGHTF / 2 + 200, Color.BLACK);
     }
 
     @Override
@@ -72,33 +85,35 @@ public class GameScene extends Scene {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        cameraController.touchDown(screenX, screenY, pointer, button);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        cameraController.touchUp(screenX, screenY, pointer, button);
         Vector2 v = CameraController.cameraUnproject(screenX, screenY);
 
-        Gdx.app.log("P", map.getProvince((int)v.x, (int)v.y).toString());
-        Gdx.app.log("S", map.getState((int)v.x, (int)v.y).toString());
+        stateWindow.getTitleLabel().setText(map.getState((int)v.x, (int)v.y).getName());
 
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        cameraController.touchDragged(screenX, screenY, pointer);
         return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        cameraController.mouseMoved(screenX, screenY);
         return false;
     }
 
     @Override
     public boolean scrolled(int amount) {
-        Game.getGameCam().zoom += (float) amount / 10;
-
+        cameraController.scrolled(amount);
         return false;
     }
 }

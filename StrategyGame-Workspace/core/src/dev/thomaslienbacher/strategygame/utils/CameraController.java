@@ -44,6 +44,8 @@ public class CameraController {
     }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        Gdx.app.log("Dragged", "" + screenX + " " + screenY);
+
         return false;
     }
 

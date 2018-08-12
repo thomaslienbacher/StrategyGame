@@ -36,8 +36,9 @@ public class Data {
     //misc
     public static final String LOGO = "logo.png";
 
-    //fonts
+    //ui
     public static final String FONT = "fonts/DroidSansMono.ttf";
+    public static final String SKIN = "skin/uiskin.json";
 
     //map
     public static final String MAP_COLORCODE = "map/map_colorcode.png";

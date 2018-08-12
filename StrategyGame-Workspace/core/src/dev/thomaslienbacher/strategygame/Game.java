@@ -52,7 +52,7 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		VisUI.load(VisUI.SkinScale.X2);
+		VisUI.load(Data.SKIN);
 	    gameState = GameStates.STARTUP;
 		firstFrame = true;
 

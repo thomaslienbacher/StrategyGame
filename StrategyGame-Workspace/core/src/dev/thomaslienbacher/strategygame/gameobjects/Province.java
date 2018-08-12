@@ -1,6 +1,7 @@
 package dev.thomaslienbacher.strategygame.gameobjects;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Province {
     private Color colorcode;
     private int colorcodeInt;
     private State occupier;
+    private Pixmap selectedOverlay;
 
     public Province(int id, int[] colorcode) {
         this.id = id;

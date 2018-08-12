@@ -16,7 +16,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
  */
 public class FontManager {
 
-    private static final int BASE_SIZE = 200;
+    private static final int BASE_SIZE = 100;
 
     private static FreeTypeFontGenerator generator;
     private static BitmapFont font;
