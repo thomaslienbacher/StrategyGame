@@ -2,6 +2,7 @@ package dev.thomaslienbacher.strategygame.scenes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dev.thomaslienbacher.strategygame.assets.Data;
@@ -41,7 +42,7 @@ public class StartupScene extends Scene {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(PolygonSpriteBatch batch) {
         batch.draw(logo, 0, 0);
     }
 

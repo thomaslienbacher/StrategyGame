@@ -41,7 +41,6 @@ public class Data {
     public static final String SKIN = "skin/uiskin.json";
 
     //map
-    public static final String MAP_COLORCODE = "map/map_colorcode.png";
-    public static final String MAPDATA_JSON = "map/map_data.json";
+    public static final String MAPDATA_JSON = "map/map_data_pg.json";
 
 }

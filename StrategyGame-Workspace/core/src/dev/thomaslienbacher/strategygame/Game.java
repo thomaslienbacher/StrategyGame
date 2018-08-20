@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -32,7 +33,7 @@ public class Game extends ApplicationAdapter {
 	public static final float ASPECT_RATIO = (float)WIDTH / (float)HEIGHT;
 	public static final String PREFERENCES = "strategygame-prefs";
 
-	private static SpriteBatch batch;
+	private static PolygonSpriteBatch batch;
 	private static StretchViewport gameViewport;
 	private static StretchViewport guiViewport;
 	private static OrthographicCamera gameCam;
@@ -75,7 +76,7 @@ public class Game extends ApplicationAdapter {
 		}
 
 		//batch
-		batch = new SpriteBatch();
+		batch = new PolygonSpriteBatch();
 
 		//setup loadingscene
 		startupScene = new StartupScene(GameStates.STARTUP);
@@ -185,7 +186,7 @@ public class Game extends ApplicationAdapter {
 		return Gdx.graphics.getDeltaTime();
 	}
 
-	public static SpriteBatch getBatch() {
+	public static PolygonSpriteBatch getBatch() {
 		return batch;
 	}
 

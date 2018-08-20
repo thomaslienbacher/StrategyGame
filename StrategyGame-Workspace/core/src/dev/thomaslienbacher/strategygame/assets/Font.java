@@ -2,6 +2,7 @@ package dev.thomaslienbacher.strategygame.assets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dev.thomaslienbacher.strategygame.utils.Utils;
 
@@ -21,19 +22,19 @@ public class Font {
 		this.scale = scale;
 	}
 
-	public void render(SpriteBatch batch, String text, float x, float y){
+	public void render(PolygonSpriteBatch batch, String text, float x, float y){
 		scaleFont();
 		bitmapFont.draw(batch, text, x, y);
 	}
 	
-	public void render(SpriteBatch batch, String text, float x, float y, Color color){
+	public void render(PolygonSpriteBatch batch, String text, float x, float y, Color color){
 		scaleFont();
 		bitmapFont.setColor(color);
 		bitmapFont.draw(batch, text, x, y);
 		bitmapFont.setColor(Color.WHITE);
 	}
 
-	public void renderCentered(SpriteBatch batch, String text, float x, float y, Color color){
+	public void renderCentered(PolygonSpriteBatch batch, String text, float x, float y, Color color){
 		scaleFont();
 		bitmapFont.setColor(color);
 		bitmapFont.draw(batch, text, x - Utils.calculateStringWidth(this, text) / 2, y + Utils.calculateStringHeight(this, text) / 2);

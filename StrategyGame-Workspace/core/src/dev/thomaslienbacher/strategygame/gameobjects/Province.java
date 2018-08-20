@@ -1,8 +1,9 @@
 package dev.thomaslienbacher.strategygame.gameobjects;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import javafx.stage.Stage;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
 
 import java.util.ArrayList;
 
@@ -12,23 +13,34 @@ import java.util.ArrayList;
 public class Province {
 
     private int id;
-    private Color colorcode;
-    private int colorcodeInt;
+    private Polygon polygon;
+    private PolygonRegion polygonRegion;
     private State occupier;
-    private Pixmap selectedOverlay;
 
-    public Province(int id, int[] colorcode) {
+    public static TextureRegion t = new TextureRegion(new Texture("austria_old.png"));
+
+    public Province(int id, float[] vertices) {
         this.id = id;
-        this.colorcode = new Color((float) colorcode[0] / 255, (float) colorcode[1] / 255, (float) colorcode[2] / 255, 1);
-        this.colorcodeInt = Color.toIntBits(colorcode[0], colorcode[1], colorcode[2], 255);
+        this.polygon = new Polygon(vertices);
+
+        short[] tris = new short[((vertices.length / 2) - 2) * 3];
+        int c = 0;
+
+        for(int i = 1; i < (vertices.length / 2) -1; i++) {
+            tris[c++] = 0;
+            tris[c++] = (short) i++;
+            tris[c++] = (short) i;
+        }
+
+        this.polygonRegion = new PolygonRegion(t, vertices, tris);
     }
 
     public int getId() {
         return id;
     }
 
-    public Color getColorcode() {
-        return colorcode;
+    public Polygon getPolygon() {
+        return polygon;
     }
 
     public State getOccupier() {
@@ -37,6 +49,10 @@ public class Province {
 
     public void setOccupier(State occupier) {
         this.occupier = occupier;
+    }
+
+    public PolygonRegion getPolygonRegion() {
+        return polygonRegion;
     }
 
     @Override
@@ -53,16 +69,7 @@ public class Province {
     public String toString() {
         return "Province{" +
                 "id=" + id +
-                ", colorcode=" + colorcode +
                 ", occupier=" + occupier.getId() + " / " + occupier.getName() +
                 '}';
-    }
-
-    public static Province getProvinceFromList(ArrayList<Province> provinces, int id) {
-        for(Province p : provinces) {
-            if(p.id == id) return p;
-        }
-
-        return null;
     }
 }

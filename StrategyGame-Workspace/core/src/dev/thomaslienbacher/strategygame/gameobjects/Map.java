@@ -4,14 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.kotcrab.vis.ui.util.ColorUtils;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.utils.Utils;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -21,15 +23,10 @@ public class Map {
 
     private static final Color BACKGROUND = Color.valueOf("00C7FFFF");
 
-    private ArrayList<Province> provinces = new ArrayList<Province>();
+    private Array<Province> provinces = new Array<Province>();
     private ArrayList<State> states = new ArrayList<State>();
-    private Pixmap colorcode;
-    private Texture mapTexture;
 
-    public Map(Texture colorcodeTexture) {
-        colorcodeTexture.getTextureData().prepare();
-        this.colorcode = colorcodeTexture.getTextureData().consumePixmap();
-
+    public Map() {
         JsonValue root = new JsonReader().parse(Gdx.files.internal(Data.MAPDATA_JSON));
 
         JsonValue provinces = root.get("provinces");
@@ -37,8 +34,8 @@ public class Map {
 
         for(JsonValue j : provinces) {
             int id = Integer.parseInt(j.getString("id"));
-            int[] colorcode = j.get("colorcode").asIntArray();
-            this.provinces.add(new Province(id, colorcode));
+            float[] vertices = j.get("vertices").asFloatArray();
+            this.provinces.add(new Province(id, vertices));
         }
 
         for(JsonValue j : states) {
@@ -55,54 +52,29 @@ public class Map {
 
             this.states.add(new State(id, name, color, pl));
         }
-
-        updateMapTexture();
     }
 
-    private void updateMapTexture() {
-        Pixmap pixmap = new Pixmap(colorcode.getWidth(), colorcode.getHeight(), Pixmap.Format.RGBA8888);
-        pixmap.setColor(BACKGROUND);
-        pixmap.fill();
 
-        pixmap.drawPixmap(colorcode, 0, 0);
-
-        //draw states
-        for(int x = 0; x < pixmap.getWidth(); x++) {
-            for(int y = 0; y < pixmap.getHeight(); y++) {
-                int c = pixmap.getPixel(x, y);
-
-                if((c >> 24) == 2) {
-                    pixmap.setColor(provinces.get((c >> 16) & 0xFF).getOccupier().getColor());
-                    pixmap.drawPixel(x, y);
-                }
-            }
+    public void render(PolygonSpriteBatch batch) {
+        for(Province p : provinces) {
+            batch.draw(p.getPolygonRegion(), 0, 0);
         }
-
-        if(mapTexture == null) {
-            mapTexture = new Texture(pixmap);
-            Utils.setLinearFilter(mapTexture);
-        }
-        else mapTexture.draw(pixmap, 0, 0);
-        pixmap.dispose();
-    }
-
-    public void render(SpriteBatch batch) {
-        batch.draw(mapTexture, 0, 0);
     }
 
     public void dispose() {
-        colorcode.dispose();
-        mapTexture.dispose();
+
     }
 
     public State getState(int x, int y) {
         Province p = getProvince(x, y);
-        return p != null ? p.getOccupier() : null;
+        return p == null ? null : p.getOccupier();
     }
 
     public Province getProvince(int x, int y) {
-        int c = colorcode.getPixel(x, colorcode.getHeight() - y);
-        if((c >> 24) == 2) return provinces.get((c >> 16) & 0xFF);
-        else return null;
+        for(Province p : provinces) {
+            if(p.getPolygon().contains(x, y)) return p;
+        }
+
+        return null;
     }
 }

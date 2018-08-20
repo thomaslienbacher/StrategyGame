@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import dev.thomaslienbacher.strategygame.Game;
@@ -31,12 +32,12 @@ public class GameScene extends Scene {
 
     @Override
     public void loadAssets(AssetManager assetManager) {
-        assetManager.load(Data.MAP_COLORCODE, Texture.class);
+
     }
 
     @Override
     public void create(AssetManager assetManager) {
-        map = new Map((Texture) assetManager.get(Data.MAP_COLORCODE));
+        map = new Map();
 
         stateWindow = new StateWindow("State");
         uistage.addActor(stateWindow);
@@ -58,7 +59,7 @@ public class GameScene extends Scene {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(PolygonSpriteBatch batch) {
         map.render(batch);
     }
 

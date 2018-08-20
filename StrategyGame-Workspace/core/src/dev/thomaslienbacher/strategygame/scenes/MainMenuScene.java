@@ -3,6 +3,7 @@ package dev.thomaslienbacher.strategygame.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -48,7 +49,7 @@ public class MainMenuScene extends Scene {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(PolygonSpriteBatch batch) {
         FontManager.get(200).renderCentered(batch, Data.getI18N("main_menu_title"), Game.WIDTHF / 2, Game.HEIGHTF / 2 + 200, Color.BLACK);
         FontManager.get(100).renderCentered(batch, Locale.getDefault().toString(), Game.WIDTHF / 2, Game.HEIGHTF / 2, Color.BLACK);
         FontManager.get(70).renderCentered(batch, Data.getI18N("author"), Game.WIDTHF / 2, Game.HEIGHTF / 2 - 100, new Color(0.1f, 0.4f, 0.5f, 1));

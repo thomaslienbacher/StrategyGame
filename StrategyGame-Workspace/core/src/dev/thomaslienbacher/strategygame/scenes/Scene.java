@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import dev.thomaslienbacher.strategygame.Game;
@@ -31,7 +32,7 @@ public abstract class Scene implements InputProcessor {
         uistage.act(delta);
     }
 
-    public abstract void render(SpriteBatch batch);
+    public abstract void render(PolygonSpriteBatch batch);
 
     public final void renderGUI() {
         uistage.getBatch().end();
