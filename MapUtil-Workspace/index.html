@@ -10,6 +10,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script src="maputil.js"></script>
 	
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
@@ -19,10 +20,52 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-	<div>
+	<div id="head">
 		<h3>Map Util - StrategyGame</h1>
 		<h5>Repo: <a href="https://github.com/thomaslienbacher/StrategyGame">github.com/thomaslienbacher/StrategyGame</a></h3>
 		<h6>by Thomas Lienbacher</h6>
+	</div>
+	<div class="segment">
+		<h5>View</h5>
+		<div id="view" class="col-sm">Please select a file</div>
+	</div>
+	<div class="segment">
+		<h5>Selection</h5>
+		<div id="control" class="col-sm">
+			<div class="form-group">
+				<label for="svg-file">SVG File</label>
+				<input type="file" class="form-control form-control-sm" id="svg-file" onchange="setSVG()">
+			</div>
+			<div class="form-group">
+				<label for="selected-path">Selected Path</label>
+				<input type="readonly" class="form-control form-control-sm" id="selected-path" disabled>
+			</div>
+		</div>
+	</div>
+	<div class="segment">
+		<h5>Province Data</h5>
+		<div class="form-group">
+			<label for="province-id">Id</label>
+			<input type="readonly" class="form-control form-control-sm" id="province-id" disabled>
+		</div>
+		<div class="form-group">
+			<label for="province-name">Name</label>
+			<input type="text" class="form-control form-control-sm" id="province-name">
+		</div>
+		<div class="form-group">
+			<label for="province-occupier">Occupier</label>
+			<input type="text" class="form-control form-control-sm" id="province-occupier">
+		</div>
+	</div>
+	<div class="segment">
+		<h5>JSON</h5>
+		<div class="form-group">
+			<button type="button" class="btn btn-primary">Generate JSON</button>
+		</div>
+		<div class="form-group">
+			<label for="json-output">Output</label><br>
+			<textarea id="json-output" rows="10"></textarea>
+		</div>
 	</div>
 </body>
 </html>

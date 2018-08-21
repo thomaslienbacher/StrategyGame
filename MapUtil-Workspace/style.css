@@ -1,0 +1,28 @@
+body {
+	background-color: #bcd6ff;
+}
+
+div {
+	padding: 1em;
+}
+
+.segment {
+	border: 1px solid blue;
+	margin: 0.5em;
+}
+
+#head {
+	padding: 2em;
+}
+
+#control {
+	
+}
+
+#view {
+	
+}
+
+#json-output {
+	width: 100%;
+}
