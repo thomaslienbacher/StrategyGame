@@ -12,13 +12,14 @@ import dev.thomaslienbacher.strategygame.Game;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
 import dev.thomaslienbacher.strategygame.gameobjects.Map;
+import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.ui.StateWindow;
 import dev.thomaslienbacher.strategygame.utils.CameraController;
 
 public class GameScene extends Scene {
 
     //gameobjects
-    private Map map;
+    public Map map;
 
     //ui
     private StateWindow stateWindow;
@@ -49,17 +50,25 @@ public class GameScene extends Scene {
     public void update(float delta) {
         super.update(delta);
 
-        int w =  10;
+        int w = 1;
         if(Gdx.input.isKeyPressed(Input.Keys.W)) Game.getGameCam().position.y += w;
         if(Gdx.input.isKeyPressed(Input.Keys.S)) Game.getGameCam().position.y -= w;
         if(Gdx.input.isKeyPressed(Input.Keys.A)) Game.getGameCam().position.x -= w;
         if(Gdx.input.isKeyPressed(Input.Keys.D)) Game.getGameCam().position.x += w;
 
-        //Gdx.app.log("M", ""+Game.getGameCam().zoom);
+        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+            Game.getGameCam().position.x = map.getProvinces().get(1).getPolygon().getBoundingRectangle().x;
+            Game.getGameCam().position.y = map.getProvinces().get(1).getPolygon().getBoundingRectangle().y;
+        }
+
+        //Gdx.app.log("Cam", ""+Game.getGameCam().position);
+        //Gdx.app.log("Poly", ""+map.getProvinces().get(1).getPolygon().getBoundingRectangle());
     }
 
     @Override
     public void render(PolygonSpriteBatch batch) {
+        batch.draw(Province.t, 0, 0, 10, 10);
+
         map.render(batch);
     }
 
@@ -95,7 +104,10 @@ public class GameScene extends Scene {
         cameraController.touchUp(screenX, screenY, pointer, button);
         Vector2 v = CameraController.cameraUnproject(screenX, screenY);
 
-        stateWindow.getTitleLabel().setText(map.getState((int)v.x, (int)v.y).getName());
+        try {
+            stateWindow.getTitleLabel().setText(map.getState((int) v.x, (int) v.y).getName());
+        }
+        catch(Exception e){}
 
         return false;
     }

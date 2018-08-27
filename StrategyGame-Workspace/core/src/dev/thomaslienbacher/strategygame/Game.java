@@ -5,17 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
+import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.scenes.*;
 
 
@@ -34,6 +37,7 @@ public class Game extends ApplicationAdapter {
 	public static final String PREFERENCES = "strategygame-prefs";
 
 	private static PolygonSpriteBatch batch;
+	private static ShapeRenderer shapeRenderer;
 	private static StretchViewport gameViewport;
 	private static StretchViewport guiViewport;
 	private static OrthographicCamera gameCam;
@@ -77,6 +81,8 @@ public class Game extends ApplicationAdapter {
 
 		//batch
 		batch = new PolygonSpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
 
 		//setup loadingscene
 		startupScene = new StartupScene(GameStates.STARTUP);
@@ -110,6 +116,23 @@ public class Game extends ApplicationAdapter {
 			batch.setProjectionMatrix(gameCam.combined);
 			gameScene.render(batch);
 			gameScene.renderGUI();
+
+			shapeRenderer.setProjectionMatrix(gameCam.combined);
+			shapeRenderer.begin();
+			int i = 0;
+
+			final Color[] colors = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.RED, Color.GREEN,
+					Color.GRAY, Color.ORANGE, Color.CORAL, Color.BLUE,
+					Color.FIREBRICK, Color.CYAN, Color.MAGENTA, Color.FOREST,
+					Color.GOLD, Color.SALMON, Color.MAROON, Color.SKY};
+
+			for(Province p : gameScene.map.getProvinces()) {
+				shapeRenderer.setColor(colors[i %  colors.length]);
+				shapeRenderer.polygon(p.getPolygon().getVertices());
+				i++;
+			}
+
+			shapeRenderer.end();
 		}
 
 		/**

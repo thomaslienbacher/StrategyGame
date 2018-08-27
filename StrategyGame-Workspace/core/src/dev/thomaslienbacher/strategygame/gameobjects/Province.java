@@ -1,5 +1,6 @@
 package dev.thomaslienbacher.strategygame.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,22 +18,22 @@ public class Province {
     private PolygonRegion polygonRegion;
     private State occupier;
 
-    public static TextureRegion t = new TextureRegion(new Texture("austria_old.png"));
+    public static TextureRegion t = new TextureRegion(new Texture("austria_old_2.png"));
 
-    public Province(int id, float[] vertices) {
+    public Province(int id, float[] vertices, short[] triangles) {
         this.id = id;
         this.polygon = new Polygon(vertices);
 
-        short[] tris = new short[((vertices.length / 2) - 2) * 3];
+        /*short[] tris = new short[((vertices.length / 2) - 2) * 3];
         int c = 0;
 
-        for(int i = 1; i < (vertices.length / 2) -1; i++) {
+        for(int i = 1; i < (vertices.length / 2) -1;) {
             tris[c++] = 0;
             tris[c++] = (short) i++;
             tris[c++] = (short) i;
-        }
+        }*/
 
-        this.polygonRegion = new PolygonRegion(t, vertices, tris);
+        this.polygonRegion = new PolygonRegion(t, vertices, triangles);
     }
 
     public int getId() {

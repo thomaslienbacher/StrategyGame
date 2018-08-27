@@ -35,7 +35,8 @@ public class Map {
         for(JsonValue j : provinces) {
             int id = Integer.parseInt(j.getString("id"));
             float[] vertices = j.get("vertices").asFloatArray();
-            this.provinces.add(new Province(id, vertices));
+            short[] triangles = j.get("triangles").asShortArray();
+            this.provinces.add(new Province(id, vertices, triangles));
         }
 
         for(JsonValue j : states) {
@@ -76,5 +77,13 @@ public class Map {
         }
 
         return null;
+    }
+
+    public Array<Province> getProvinces() {
+        return provinces;
+    }
+
+    public ArrayList<State> getStates() {
+        return states;
     }
 }

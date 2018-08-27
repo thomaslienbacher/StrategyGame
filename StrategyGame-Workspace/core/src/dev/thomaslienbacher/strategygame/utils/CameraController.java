@@ -13,7 +13,7 @@ import dev.thomaslienbacher.strategygame.Game;
  */
 public class CameraController {
 
-    private static final float ZOOM_SENSTIVITY = 5.0f;
+    private static final float ZOOM_SENSTIVITY = 0.01f;
     private static final float MOVE_SENSTIVITY = 1.0f;
 
     private OrthographicCamera cam;
@@ -44,7 +44,7 @@ public class CameraController {
     }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        Gdx.app.log("Dragged", "" + screenX + " " + screenY);
+        //Gdx.app.log("Dragged", "" + screenX + " " + screenY);
 
         return false;
     }
@@ -54,7 +54,7 @@ public class CameraController {
     }
 
     public boolean scrolled(int amount) {
-        Game.getGameCam().zoom += (float) amount / 10;
+        Game.getGameCam().zoom += (float) amount * ZOOM_SENSTIVITY;
 
         return false;
     }

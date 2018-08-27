@@ -41,6 +41,6 @@ public class Data {
     public static final String SKIN = "skin/uiskin.json";
 
     //map
-    public static final String MAPDATA_JSON = "map/map_data_pg.json";
+    public static final String MAPDATA_JSON = "map/map_data_china.json";
 
 }
