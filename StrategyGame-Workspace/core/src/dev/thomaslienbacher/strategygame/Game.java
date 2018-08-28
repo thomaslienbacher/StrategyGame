@@ -10,16 +10,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
 import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.scenes.*;
+import dev.thomaslienbacher.strategygame.utils.PolygonUtils;
 
 
 /**
@@ -53,7 +52,7 @@ public class Game extends ApplicationAdapter {
 	private static GameScene gameScene;
 
 	//debug
-	public final static boolean DEBUG = true;
+	public final static boolean DEBUG = false;
 
 	@Override
 	public void create () {
@@ -94,7 +93,7 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0.5f,0.5f,0.5f,1);
+		Gdx.gl.glClearColor(0.6f,0.6f,0.6f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		gameCam.update();
@@ -122,13 +121,18 @@ public class Game extends ApplicationAdapter {
 			int i = 0;
 
 			final Color[] colors = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.RED, Color.GREEN,
-					Color.GRAY, Color.ORANGE, Color.CORAL, Color.BLUE,
+					Color.OLIVE, Color.ORANGE, Color.CORAL, Color.BLUE,
 					Color.FIREBRICK, Color.CYAN, Color.MAGENTA, Color.FOREST,
 					Color.GOLD, Color.SALMON, Color.MAROON, Color.SKY};
 
 			for(Province p : gameScene.map.getProvinces()) {
 				shapeRenderer.setColor(colors[i %  colors.length]);
+				shapeRenderer.setColor(Color.BLACK);
 				shapeRenderer.polygon(p.getPolygon().getVertices());
+
+				Circle c = p.getCenter();
+				shapeRenderer.setColor(Color.WHITE);
+				//shapeRenderer.circle(c.x, c.y, c.radius);
 				i++;
 			}
 

@@ -1,39 +1,59 @@
 package dev.thomaslienbacher.strategygame.gameobjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
-
-import java.util.ArrayList;
+import com.badlogic.gdx.math.Rectangle;
+import dev.thomaslienbacher.strategygame.utils.PolygonUtils;
 
 /**
  * @author Thomas Lienbacher
  */
 public class Province {
 
+    public static final float EMBLEM_SIZE_MOD = 1.35f; //size modiefier to get the emblem the right size
+    public static final float MAX_EMBLEM_SIZE = 45;
+
     private int id;
     private Polygon polygon;
+    private Texture emblem;
     private PolygonRegion polygonRegion;
+    private Circle center;
     private State occupier;
 
-    public static TextureRegion t = new TextureRegion(new Texture("austria_old_2.png"));
-
-    public Province(int id, float[] vertices, short[] triangles) {
+    public Province(int id, Texture emblem, float[] vertices, short[] triangles) {
         this.id = id;
         this.polygon = new Polygon(vertices);
+        this.emblem = emblem;
+        this.polygonRegion = new PolygonRegion(new TextureRegion(emblem), vertices, triangles);
+        this.center = PolygonUtils.getVisualCenter(this.polygon);
+    }
 
-        /*short[] tris = new short[((vertices.length / 2) - 2) * 3];
-        int c = 0;
+    public void draw(PolygonSpriteBatch batch) {
+        batch.draw(polygonRegion, 0,0);
 
-        for(int i = 1; i < (vertices.length / 2) -1;) {
-            tris[c++] = 0;
-            tris[c++] = (short) i++;
-            tris[c++] = (short) i;
-        }*/
+        Rectangle r = polygon.getBoundingRectangle();
+        float w = 0, h = 0;
 
-        this.polygonRegion = new PolygonRegion(t, vertices, triangles);
+        if(emblem.getWidth() > emblem.getHeight()) {
+            w = center.radius * EMBLEM_SIZE_MOD;
+            if(w > MAX_EMBLEM_SIZE) w = MAX_EMBLEM_SIZE;
+            h = emblem.getHeight() * (w / emblem.getWidth());
+        } else {
+            h = center.radius * EMBLEM_SIZE_MOD;
+            if(h > MAX_EMBLEM_SIZE) h = MAX_EMBLEM_SIZE;
+            w = emblem.getWidth() * (h / emblem.getHeight());
+        }
+
+        float x = center.x - w / 2;
+        float y = center.y - h / 2;
+
+        batch.draw(emblem, x, y, w, h);
     }
 
     public int getId() {
@@ -49,11 +69,17 @@ public class Province {
     }
 
     public void setOccupier(State occupier) {
+        this.emblem = occupier.getEmblem();
+        polygonRegion.getRegion().setRegion(occupier.getBackground());
         this.occupier = occupier;
     }
 
     public PolygonRegion getPolygonRegion() {
         return polygonRegion;
+    }
+
+    public Circle getCenter() {
+        return center;
     }
 
     @Override
@@ -64,13 +90,5 @@ public class Province {
         Province province = (Province) o;
 
         return id == province.id;
-    }
-
-    @Override
-    public String toString() {
-        return "Province{" +
-                "id=" + id +
-                ", occupier=" + occupier.getId() + " / " + occupier.getName() +
-                '}';
     }
 }

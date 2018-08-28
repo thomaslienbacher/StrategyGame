@@ -45,16 +45,25 @@ function selectPath(id) {
 	
 	if(provinces[id]) {
 		document.getElementById("province-name").value = provinces[id].name
+		document.getElementById("province-color-r").value = provinces[id].color[0]
+		document.getElementById("province-color-g").value = provinces[id].color[1]
+		document.getElementById("province-color-b").value = provinces[id].color[2]
 		document.getElementById("province-emblem").value = provinces[id].emblem
 	}
 	else {
 		document.getElementById("province-name").value = ""
+		document.getElementById("province-color-r").value = ""
+		document.getElementById("province-color-g").value = ""
+		document.getElementById("province-color-b").value = ""
 		document.getElementById("province-emblem").value = ""
 	}
 	
 	for (var i = 0; i < paths.length; i++) {
 		paths[i].style = DEFAULT_STYLE
-		if(provinces[i]) if(provinces[i].name.localeCompare("") != 0 && provinces[i].emblem.localeCompare("") != 0) paths[i].style.fill = SET_COLOR
+		if(provinces[i]) {
+			if(provinces[i].name.localeCompare("") != 0 && provinces[i].emblem.localeCompare("") != 0
+				&& provinces[i].color[0].localeCompare("") != 0 && provinces[i].color[1].localeCompare("") != 0 && provinces[i].color[2].localeCompare("") != 0) paths[i].style.fill = SET_COLOR
+		} 
 	}
 	
 	paths[id].style.fill = SELECTED_COLOR
@@ -63,6 +72,9 @@ function selectPath(id) {
 function updateProvince() {
 	var id = document.getElementById("province-id").value
 	var name = document.getElementById("province-name").value
+	var color_r = document.getElementById("province-color-r").value
+	var color_g = document.getElementById("province-color-g").value
+	var color_b = document.getElementById("province-color-b").value
 	var emblem = document.getElementById("province-emblem").value
 	
 	var vertices = []
@@ -106,15 +118,14 @@ function updateProvince() {
 	if(transform) if(transform.startsWith("scale(")) {
 		var scale = parseFloat(transform.substring(6, transform.length - 1))
 		
-		console.log(scale)
-		
 		for (var i = 0; i < vertices.length; i++) {
 			vertices[i] *= scale;
 		}
 	}
 	
-	provinces[id] = {"id": id, "name": name, "emblem": emblem, "vertices": vertices}
-	if(provinces[id].name.localeCompare("") != 0 && provinces[id].emblem.localeCompare("") != 0) paths[id].style.fill = SET_COLOR
+	provinces[id] = {"id": id, "name": name, "color": [parseInt(color_r), parseInt(color_g), parseInt(color_b)], "emblem": emblem, "vertices": vertices}
+	if(name.localeCompare("") != 0 && emblem.localeCompare("") != 0
+		&& color_r.localeCompare("") != 0 && color_g.localeCompare("") != 0 && color_b.localeCompare("") != 0) paths[id].style.fill = SET_COLOR
 }
 
 function generateJson() {
@@ -139,7 +150,9 @@ function generateJson() {
 	}
 	
 	for (var p = 0; p < provinces.length; p++) {
-		if(provinces[p]) provinces[p].triangles = earcut(provinces[p].vertices, null, 2)
+		if(provinces[p]) {
+			provinces[p].triangles = earcut(provinces[p].vertices, null, 2)
+		}
 	}
 	
 	document.getElementById("json-output").value = JSON.stringify(provinces)

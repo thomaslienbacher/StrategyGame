@@ -3,16 +3,10 @@ package dev.thomaslienbacher.strategygame.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import dev.thomaslienbacher.strategygame.Game;
-import dev.thomaslienbacher.strategygame.assets.Data;
-import dev.thomaslienbacher.strategygame.assets.FontManager;
 import dev.thomaslienbacher.strategygame.gameobjects.Map;
-import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.ui.StateWindow;
 import dev.thomaslienbacher.strategygame.utils.CameraController;
 
@@ -60,15 +54,10 @@ public class GameScene extends Scene {
             Game.getGameCam().position.x = map.getProvinces().get(1).getPolygon().getBoundingRectangle().x;
             Game.getGameCam().position.y = map.getProvinces().get(1).getPolygon().getBoundingRectangle().y;
         }
-
-        //Gdx.app.log("Cam", ""+Game.getGameCam().position);
-        //Gdx.app.log("Poly", ""+map.getProvinces().get(1).getPolygon().getBoundingRectangle());
     }
 
     @Override
     public void render(PolygonSpriteBatch batch) {
-        batch.draw(Province.t, 0, 0, 10, 10);
-
         map.render(batch);
     }
 

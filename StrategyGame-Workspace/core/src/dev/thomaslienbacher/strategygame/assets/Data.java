@@ -42,5 +42,6 @@ public class Data {
 
     //map
     public static final String MAPDATA_JSON = "map/map_data_china.json";
+    public static final String EMBLEM_PATH = "emblems/";
 
 }
