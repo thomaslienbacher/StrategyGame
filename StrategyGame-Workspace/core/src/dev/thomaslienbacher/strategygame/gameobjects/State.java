@@ -22,8 +22,7 @@ public class State {
     public State(int id, String name, Texture emblem, int[] color, Province province) {
         this.id = id;
         this.name = name;
-        //this.color = new Color((float) color[0] / 255, (float) color[1] / 255, (float) color[2] / 255, 1);
-        this.color = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
+        this.color = new Color((float) color[0] / 255, (float) color[1] / 255, (float) color[2] / 255, 1);
         this.emblem = emblem;
         this.provinces = new ArrayList<Province>();
         this.provinces.add(province);

@@ -13,8 +13,8 @@ import java.util.*;
 public class PolygonUtils {
 
     public static Circle getVisualCenter(Polygon polygon) {
-        final int TEST_SIZE = 16; // a*2 x a*2 grid of points
-        final int ITERATIONS = 4;
+        final int TEST_SIZE = 24; // a*2 x a*2 grid of points
+        final int ITERATIONS = 5;
         final float DESIZING = 1.0f / (float) Math.sqrt(2);
 
         Rectangle bounding = polygon.getBoundingRectangle();
@@ -23,7 +23,6 @@ public class PolygonUtils {
         float maxHeight = bounding.height;
 
         for(int i = 0; i < ITERATIONS; i++) {
-
             ArrayList<Vector2> allPoints = new ArrayList<Vector2>();
 
             //generate test points

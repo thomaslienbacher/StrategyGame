@@ -130,9 +130,9 @@ public class Game extends ApplicationAdapter {
 				shapeRenderer.setColor(Color.BLACK);
 				shapeRenderer.polygon(p.getPolygon().getVertices());
 
-				Circle c = p.getCenter();
+				/*Circle c = p.getCenter();
 				shapeRenderer.setColor(Color.WHITE);
-				//shapeRenderer.circle(c.x, c.y, c.radius);
+				shapeRenderer.circle(c.x, c.y, c.radius);*/
 				i++;
 			}
 
