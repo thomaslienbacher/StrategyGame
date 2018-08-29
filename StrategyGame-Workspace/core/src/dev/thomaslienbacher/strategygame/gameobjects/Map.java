@@ -22,7 +22,7 @@ public class Map {
     private ArrayList<State> states = new ArrayList<State>();
 
     public Map() {
-        JsonValue root = new JsonReader().parse(Gdx.files.internal(Data.MAPDATA_JSON));
+        JsonValue root = new JsonReader().parse(Gdx.files.internal(Data.MAP_DATA_JSON));
 
         JsonValue provinces = root.get("provinces");
 

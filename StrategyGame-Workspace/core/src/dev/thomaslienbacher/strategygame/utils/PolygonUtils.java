@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 /**
  * @author Thomas Lienbacher
@@ -15,7 +16,7 @@ public class PolygonUtils {
     public static Circle getVisualCenter(Polygon polygon) {
         final int TEST_SIZE = 24; // a*2 x a*2 grid of points
         final int ITERATIONS = 5;
-        final float DESIZING = 1.0f / (float) Math.sqrt(2);
+        final float DECREASE = 1.0f / (float) Math.sqrt(2);
 
         Rectangle bounding = polygon.getBoundingRectangle();
         Vector2 bestPoint = new Vector2(bounding.x + bounding.width / 2, bounding.y + bounding.height / 2);
@@ -52,8 +53,8 @@ public class PolygonUtils {
 
             //get best one
             bestPoint = sortedPoints.lastEntry().getValue();
-            maxWidth *= DESIZING;
-            maxHeight *= DESIZING;
+            maxWidth *= DECREASE;
+            maxHeight *= DECREASE;
         }
 
         float d = distanceToPolygon(polygon, bestPoint);

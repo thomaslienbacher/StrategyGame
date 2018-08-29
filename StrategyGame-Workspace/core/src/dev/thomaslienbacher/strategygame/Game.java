@@ -11,14 +11,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
 import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.scenes.*;
-import dev.thomaslienbacher.strategygame.utils.PolygonUtils;
 
 
 /**
@@ -140,7 +138,7 @@ public class Game extends ApplicationAdapter {
 		}
 
 		/**
-		 *  batch doesnt end since Batch is ended in {@link Scene#getUistage()}
+		 *  batch doesn't end since Batch is ended in {@link Scene#getUistage()}
 		 */
 
 		update(Gdx.graphics.getDeltaTime());
@@ -153,8 +151,7 @@ public class Game extends ApplicationAdapter {
 	}
 
 	@Override
-	public void pause() {
-	}
+	public void pause() {}
 
 	@Override
 	public void resume() {}

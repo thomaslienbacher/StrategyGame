@@ -49,11 +49,6 @@ public class GameScene extends Scene {
         if(Gdx.input.isKeyPressed(Input.Keys.S)) Game.getGameCam().position.y -= w;
         if(Gdx.input.isKeyPressed(Input.Keys.A)) Game.getGameCam().position.x -= w;
         if(Gdx.input.isKeyPressed(Input.Keys.D)) Game.getGameCam().position.x += w;
-
-        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            Game.getGameCam().position.x = map.getProvinces().get(1).getPolygon().getBoundingRectangle().x;
-            Game.getGameCam().position.y = map.getProvinces().get(1).getPolygon().getBoundingRectangle().y;
-        }
     }
 
     @Override

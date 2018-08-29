@@ -81,6 +81,9 @@ function updateProvince() {
 	var transform = paths[id].getAttribute("transform")
 	var xpos = parseFloat(parts[1].split(",")[0])
 	var ypos = parseFloat(parts[1].split(",")[1])
+
+	vertices.push(xpos)
+	vertices.push(-ypos)
 	
 	for (var i = 2; i < parts.length; i++) {
 		if(parts[i].localeCompare("z") == 0) continue

@@ -1,7 +1,5 @@
 package dev.thomaslienbacher.strategygame.gameobjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -16,7 +14,7 @@ import dev.thomaslienbacher.strategygame.utils.PolygonUtils;
  */
 public class Province {
 
-    public static final float EMBLEM_SIZE_MOD = 1.35f; //size modiefier to get the emblem the right size
+    public static final float EMBLEM_SIZE_MOD = 1.35f; //size modifier to get the emblem the right size
     public static final float MAX_EMBLEM_SIZE = 45;
 
     private int id;

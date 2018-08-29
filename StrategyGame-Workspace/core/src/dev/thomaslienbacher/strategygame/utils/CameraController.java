@@ -1,11 +1,9 @@
 package dev.thomaslienbacher.strategygame.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import dev.thomaslienbacher.strategygame.Game;
 
 /**
@@ -13,8 +11,8 @@ import dev.thomaslienbacher.strategygame.Game;
  */
 public class CameraController {
 
-    private static final float ZOOM_SENSTIVITY = 0.01f;
-    private static final float MOVE_SENSTIVITY = 1.0f;
+    private static final float ZOOM_SENSITIVITY = 0.95f;
+    private static final float MOVE_SENSITIVITY = 0.6f;
 
     private OrthographicCamera cam;
 
@@ -35,7 +33,13 @@ public class CameraController {
         return vec;
     }
 
+
+    private Vector2 prevPosition = new Vector2();
+
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Vector2 v = cameraUnproject(screenX, screenY);
+        prevPosition = v.cpy();
+
         return false;
     }
 
@@ -44,7 +48,12 @@ public class CameraController {
     }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        //Gdx.app.log("Dragged", "" + screenX + " " + screenY);
+        /*Vector2 v = cameraUnproject(screenX, screenY);
+
+        Game.getGameCam().position.x += (v.x - prevPosition.x) * -MOVE_SENSITIVITY;
+        Game.getGameCam().position.y += (v.y - prevPosition.y) * -MOVE_SENSITIVITY;
+
+        prevPosition = v.cpy();*/
 
         return false;
     }
@@ -54,7 +63,7 @@ public class CameraController {
     }
 
     public boolean scrolled(int amount) {
-        Game.getGameCam().zoom += (float) amount * ZOOM_SENSTIVITY;
+        Game.getGameCam().zoom *= (amount > 0 ? ZOOM_SENSITIVITY : 1 / ZOOM_SENSITIVITY);
 
         return false;
     }
