@@ -43,7 +43,7 @@ public abstract class Scene implements InputProcessor {
         uistage.dispose();
     }
 
-    public final void switchTo() {
+    public void switchTo() {
         Game.setGameState(this.state);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();

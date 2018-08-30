@@ -3,22 +3,33 @@ package dev.thomaslienbacher.strategygame.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import dev.thomaslienbacher.strategygame.Game;
+import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.gameobjects.Map;
+import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.ui.StateWindow;
 import dev.thomaslienbacher.strategygame.utils.CameraController;
+import dev.thomaslienbacher.strategygame.utils.Utils;
+import sun.nio.cs.ext.MacArabic;
 
 public class GameScene extends Scene {
 
     //gameobjects
-    public Map map;
+    private Map map;
+    private Texture background;
 
     //ui
     private StateWindow stateWindow;
 
     //misc
+    private ShapeRenderer shapeRenderer;
     private CameraController cameraController;
 
     public GameScene(GameStates state) {
@@ -27,39 +38,66 @@ public class GameScene extends Scene {
 
     @Override
     public void loadAssets(AssetManager assetManager) {
-
+        assetManager.load(Data.WATER, Texture.class);
     }
 
     @Override
     public void create(AssetManager assetManager) {
         map = new Map();
+        background = assetManager.get(Data.WATER);
+        background.setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);
+        Utils.setLinearFilter(background);
 
         stateWindow = new StateWindow("State");
         uistage.addActor(stateWindow);
 
-        cameraController = new CameraController(Game.getGameCam());
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
+        cameraController = new CameraController(Game.getGameCam(), map);
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
-
-        int w = 1;
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) Game.getGameCam().position.y += w;
-        if(Gdx.input.isKeyPressed(Input.Keys.S)) Game.getGameCam().position.y -= w;
-        if(Gdx.input.isKeyPressed(Input.Keys.A)) Game.getGameCam().position.x -= w;
-        if(Gdx.input.isKeyPressed(Input.Keys.D)) Game.getGameCam().position.x += w;
     }
 
     @Override
     public void render(PolygonSpriteBatch batch) {
+        float padding = map.getAbsolutePadding();
+        batch.draw(background, map.getBounds().x - padding, map.getBounds().y - padding, map.getBounds().width + padding * 2, map.getBounds().height + padding * 2);
+
         map.render(batch);
+
+        batch.end();
+
+        shapeRenderer.setProjectionMatrix(Game.getGameCam().combined);
+        shapeRenderer.begin();
+
+        for(Province p : map.getProvinces()) {
+            shapeRenderer.setColor(Color.BLACK);
+            shapeRenderer.polygon(p.getPolygon().getVertices());
+            shapeRenderer.setColor(Color.WHITE);
+            Circle c = p.getCenter();
+            shapeRenderer.circle(c.x, c.y, c.radius);
+        }
+
+        shapeRenderer.end();
+
+        batch.begin();
     }
 
     @Override
     public void dispose() {
         super.dispose();
         map.dispose();
+        shapeRenderer.dispose();
+    }
+
+    @Override
+    public void switchTo() {
+        super.switchTo();
+
+        cameraController.startupCamPosition();
     }
 
     @Override

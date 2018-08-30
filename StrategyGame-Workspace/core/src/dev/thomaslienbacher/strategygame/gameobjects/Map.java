@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
  */
 public class Map {
 
-    private static final Color BACKGROUND = Color.valueOf("00C7FFFF");
+    public static final Color BACKGROUND = Color.valueOf("00C7FFFF");
+    public static final float MAP_PADDING = 0.5f;//percent of how much padding is between the background and the map
 
     private Array<Province> provinces = new Array<Province>();
     private ArrayList<State> states = new ArrayList<State>();
+    private Rectangle bounds;
+    private float padding = 0;
 
     public Map() {
         JsonValue root = new JsonReader().parse(Gdx.files.internal(Data.MAP_DATA_JSON));
@@ -39,6 +43,18 @@ public class Map {
             this.provinces.add(p);
             this.states.add(new State(id, name, emblem, color, p));
         }
+
+        bounds = new Rectangle(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
+
+        for(Province p : this.provinces) {
+            Rectangle r = p.getPolygon().getBoundingRectangle();
+            if(r.x < bounds.x) bounds.x = r.x;
+            if(r.y < bounds.y) bounds.y = r.y;
+            if(r.width + r.x > bounds.width) bounds.width = r.width + r.x;
+            if(r.height + r.y > bounds.height) bounds.height = r.height + r.y;
+        }
+
+        padding = (bounds.width > bounds.height ? bounds.width : bounds.height) * MAP_PADDING;
     }
 
 
@@ -67,11 +83,19 @@ public class Map {
         return null;
     }
 
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
     public Array<Province> getProvinces() {
         return provinces;
     }
 
     public ArrayList<State> getStates() {
         return states;
+    }
+
+    public float getAbsolutePadding() {
+        return padding;
     }
 }
