@@ -1,7 +1,6 @@
 package dev.thomaslienbacher.strategygame.gameobjects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
  */
 public class Map {
 
-    public static final Color BACKGROUND = Color.valueOf("00C7FFFF");
     public static final float MAP_PADDING = 0.5f;//percent of how much padding is between the background and the map
 
     private Array<Province> provinces = new Array<Province>();

@@ -1,14 +1,10 @@
 package dev.thomaslienbacher.strategygame.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import dev.thomaslienbacher.strategygame.Game;
 import dev.thomaslienbacher.strategygame.assets.Data;
@@ -17,7 +13,6 @@ import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.ui.StateWindow;
 import dev.thomaslienbacher.strategygame.utils.CameraController;
 import dev.thomaslienbacher.strategygame.utils.Utils;
-import sun.nio.cs.ext.MacArabic;
 
 public class GameScene extends Scene {
 
@@ -76,9 +71,6 @@ public class GameScene extends Scene {
         for(Province p : map.getProvinces()) {
             shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.polygon(p.getPolygon().getVertices());
-            shapeRenderer.setColor(Color.WHITE);
-            Circle c = p.getCenter();
-            shapeRenderer.circle(c.x, c.y, c.radius);
         }
 
         shapeRenderer.end();

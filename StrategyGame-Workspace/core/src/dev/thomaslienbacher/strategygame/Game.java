@@ -5,19 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
-import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.scenes.*;
-
 
 /**
  * 
@@ -28,10 +24,10 @@ public class Game extends ApplicationAdapter {
 	//constants
 	public static final int WIDTH = 1920;
 	public static final int HEIGHT = 1080; //WIDTH / 9 * 16;
-	public static final float WIDTHF = 1920;
-	public static final float HEIGHTF = 1080; //WIDTH / 9 * 16;
-	public static final float ASPECT_RATIO = (float)WIDTH / (float)HEIGHT;
-	public static final String PREFERENCES = "strategygame-prefs";
+	public static final float WIDTHF = 1920.0f;
+	public static final float HEIGHTF = 1080.0f; //WIDTH / 9 * 16;
+	public static final float ASPECT_RATIO = WIDTHF / HEIGHTF;
+	public static final String PREFERENCES = "strategy-game-prefs";
 
 	private static PolygonSpriteBatch batch;
 	private static StretchViewport gameViewport;
