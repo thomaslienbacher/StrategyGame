@@ -31,7 +31,7 @@ public class Data {
     }
 
     //colors
-    public static final Color TLS_BLUE = new Color((float)117 / 255, (float)183 / 255, 1.0f, 1.0f);
+    public static final Color TLS_BLUE = new Color((float) 117 / 255, (float) 183 / 255, 1.0f, 1.0f);
 
     //misc
     public static final String LOGO = "logo.png";

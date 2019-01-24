@@ -68,7 +68,7 @@ public class GameScene extends Scene {
         shapeRenderer.setProjectionMatrix(Game.getGameCam().combined);
         shapeRenderer.begin();
 
-        for(Province p : map.getProvinces()) {
+        for (Province p : map.getProvinces()) {
             shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.polygon(p.getPolygon().getVertices());
         }
@@ -120,8 +120,8 @@ public class GameScene extends Scene {
 
         try {
             stateWindow.getTitleLabel().setText(map.getState((int) v.x, (int) v.y).getName());
+        } catch (Exception e) {
         }
-        catch(Exception e){}
 
         return false;
     }

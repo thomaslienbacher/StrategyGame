@@ -28,7 +28,7 @@ public class Map {
 
         JsonValue provinces = root.get("provinces");
 
-        for(JsonValue j : provinces) {
+        for (JsonValue j : provinces) {
             int id = Integer.parseInt(j.getString("id"));
 
             String name = j.getString("name");
@@ -44,12 +44,12 @@ public class Map {
 
         bounds = new Rectangle(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
 
-        for(Province p : this.provinces) {
+        for (Province p : this.provinces) {
             Rectangle r = p.getPolygon().getBoundingRectangle();
-            if(r.x < bounds.x) bounds.x = r.x;
-            if(r.y < bounds.y) bounds.y = r.y;
-            if(r.width + r.x > bounds.width) bounds.width = r.width + r.x;
-            if(r.height + r.y > bounds.height) bounds.height = r.height + r.y;
+            if (r.x < bounds.x) bounds.x = r.x;
+            if (r.y < bounds.y) bounds.y = r.y;
+            if (r.width + r.x > bounds.width) bounds.width = r.width + r.x;
+            if (r.height + r.y > bounds.height) bounds.height = r.height + r.y;
         }
 
         padding = (bounds.width > bounds.height ? bounds.width : bounds.height) * MAP_PADDING;
@@ -57,13 +57,13 @@ public class Map {
 
 
     public void render(PolygonSpriteBatch batch) {
-        for(State s : states) {
+        for (State s : states) {
             s.draw(batch);
         }
     }
 
     public void dispose() {
-        for(State s : states) {
+        for (State s : states) {
             s.dispose();
         }
     }
@@ -74,8 +74,8 @@ public class Map {
     }
 
     public Province getProvince(int x, int y) {
-        for(Province p : provinces) {
-            if(p.getPolygon().contains(x, y)) return p;
+        for (Province p : provinces) {
+            if (p.getPolygon().contains(x, y)) return p;
         }
 
         return null;

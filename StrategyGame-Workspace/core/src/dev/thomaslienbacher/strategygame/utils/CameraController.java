@@ -32,8 +32,8 @@ public class CameraController {
 
     public static Vector2 toScreenCoords(int screenX, int screenY) {
         Vector2 vec = new Vector2();
-        vec.x = (float)screenX / (float) Gdx.graphics.getWidth() * Game.WIDTH;
-        vec.y = -((float)screenY / (float)Gdx.graphics.getHeight() * Game.HEIGHT) + Game.HEIGHT;
+        vec.x = (float) screenX / (float) Gdx.graphics.getWidth() * Game.WIDTH;
+        vec.y = -((float) screenY / (float) Gdx.graphics.getHeight() * Game.HEIGHT) + Game.HEIGHT;
         return vec;
     }
 
@@ -93,7 +93,7 @@ public class CameraController {
                 ? map.getBounds().width / Game.WIDTHF
                 : map.getBounds().height / Game.HEIGHTF);
 
-        if(cam.zoom > maxZoom) cam.zoom = maxZoom;
+        if (cam.zoom > maxZoom) cam.zoom = maxZoom;
     }
 
     //limit to inside the bounds of the map
@@ -103,9 +103,11 @@ public class CameraController {
         float pad = map.getAbsolutePadding();
         float zoom = cam.zoom;
 
-        if(pos.x < bounds.x - pad + Game.WIDTHF * zoom / 2) pos.x = bounds.x - pad + Game.WIDTHF * zoom / 2;
-        else if(pos.x > bounds.x + bounds.width + pad - Game.WIDTHF * zoom / 2) pos.x = bounds.x + bounds.width + pad - Game.WIDTHF * zoom / 2;
-        if(pos.y < bounds.y - pad + Game.HEIGHTF * zoom / 2) pos.y = bounds.y - pad + Game.HEIGHTF * zoom / 2;
-        else if(pos.y > bounds.y + bounds.height + pad - Game.HEIGHTF * zoom / 2) pos.y = bounds.y + bounds.height + pad - Game.HEIGHTF * zoom / 2;
+        if (pos.x < bounds.x - pad + Game.WIDTHF * zoom / 2) pos.x = bounds.x - pad + Game.WIDTHF * zoom / 2;
+        else if (pos.x > bounds.x + bounds.width + pad - Game.WIDTHF * zoom / 2)
+            pos.x = bounds.x + bounds.width + pad - Game.WIDTHF * zoom / 2;
+        if (pos.y < bounds.y - pad + Game.HEIGHTF * zoom / 2) pos.y = bounds.y - pad + Game.HEIGHTF * zoom / 2;
+        else if (pos.y > bounds.y + bounds.height + pad - Game.HEIGHTF * zoom / 2)
+            pos.y = bounds.y + bounds.height + pad - Game.HEIGHTF * zoom / 2;
     }
 }

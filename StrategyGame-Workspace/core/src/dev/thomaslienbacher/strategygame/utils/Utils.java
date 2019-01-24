@@ -23,32 +23,32 @@ import java.nio.channels.ReadableByteChannel;
  */
 public class Utils {
 
-    public static final float DEG_2_RAD = (float)(Math.PI / 180);
-    public static final float RAD_2_DEG = (float)(1 / Math.PI * 180);
+    public static final float DEG_2_RAD = (float) (Math.PI / 180);
+    public static final float RAD_2_DEG = (float) (1 / Math.PI * 180);
 
     //calculates the WIDTH of the string in the given font
-    public static float calculateStringWidth(Font font, String string){
+    public static float calculateStringWidth(Font font, String string) {
         GlyphLayout g = new GlyphLayout();
         g.setText(font.getBitmapFont(), string);
         return g.width;
     }
 
     //calculates the HEIGHT of the string in the given font
-    public static float calculateStringHeight(Font font, String string){
+    public static float calculateStringHeight(Font font, String string) {
         GlyphLayout g = new GlyphLayout();
         g.setText(font.getBitmapFont(), string);
-        return g.height * font.getScale();//TODO debug: file bug report at libgdx repo
+        return g.height * font.getScale();//TODO is this bug??
     }
 
     //replace string in every string in an array
-    public static String[] replaceStringArray(String array[], String target, String replacement){
-    	String replacedArray[] = array;
+    public static String[] replaceStringArray(String array[], String target, String replacement) {
+        String replacedArray[] = array;
 
-    	for(int i = 0; i < array.length; i++){
-    		replacedArray[i] = replacedArray[i].replaceAll(target, replacement);
-    	}
+        for (int i = 0; i < array.length; i++) {
+            replacedArray[i] = replacedArray[i].replaceAll(target, replacement);
+        }
 
-    	return replacedArray;
+        return replacedArray;
     }
 
     /**
@@ -57,11 +57,11 @@ public class Utils {
      * @param c the class to get the path from
      * @return the path of the folder where the class file lies
      */
-    public static String getPathOfClass(Class c){
+    public static String getPathOfClass(Class c) {
         String path = "";
         path += System.getProperty("java.class.path") + "\\";
         path += c.getName().replace(c.getSimpleName(), "");
-        path = path.substring(0, path.length()-1);
+        path = path.substring(0, path.length() - 1);
         path = path.replace(".", "\\");
 
         return path;
@@ -69,13 +69,13 @@ public class Utils {
 
     /**
      * Method used to get the path of the compiled jar file.
-     *
+     * <p>
      * Example: C:\Folder\Subfolder\runnable.jar
      *
      * @param c any class which is in the jar file
      * @return the path of the jar file
      */
-    public static String getPathOfJar(Class c){
+    public static String getPathOfJar(Class c) {
         String encodedPath = c.getProtectionDomain().getCodeSource().getLocation().getPath();
         String path = "";
 
@@ -122,11 +122,11 @@ public class Utils {
         return pixmap;
     }
 
-    public static void setLinearFilter(Texture texture){
+    public static void setLinearFilter(Texture texture) {
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-    public static void setNearestFilter(Texture texture){
+    public static void setNearestFilter(Texture texture) {
         texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
     }
 

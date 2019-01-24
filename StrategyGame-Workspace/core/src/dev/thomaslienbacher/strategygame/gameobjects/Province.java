@@ -33,18 +33,18 @@ public class Province {
     }
 
     public void draw(PolygonSpriteBatch batch) {
-        batch.draw(polygonRegion, 0,0);
+        batch.draw(polygonRegion, 0, 0);
 
         Rectangle r = polygon.getBoundingRectangle();
         float w = 0, h = 0;
 
-        if(emblem.getWidth() > emblem.getHeight()) {
+        if (emblem.getWidth() > emblem.getHeight()) {
             w = center.radius * EMBLEM_SIZE_MOD;
-            if(w > MAX_EMBLEM_SIZE) w = MAX_EMBLEM_SIZE;
+            if (w > MAX_EMBLEM_SIZE) w = MAX_EMBLEM_SIZE;
             h = emblem.getHeight() * (w / emblem.getWidth());
         } else {
             h = center.radius * EMBLEM_SIZE_MOD;
-            if(h > MAX_EMBLEM_SIZE) h = MAX_EMBLEM_SIZE;
+            if (h > MAX_EMBLEM_SIZE) h = MAX_EMBLEM_SIZE;
             w = emblem.getWidth() * (h / emblem.getHeight());
         }
 
@@ -82,8 +82,8 @@ public class Province {
 
     @Override
     public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Province province = (Province) o;
 
