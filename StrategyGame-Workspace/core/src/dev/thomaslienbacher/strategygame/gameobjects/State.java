@@ -33,13 +33,13 @@ public class State {
         this.background = new Texture(bg);
         bg.dispose();
 
-        for(Province p : this.provinces) {
+        for (Province p : this.provinces) {
             p.setOccupier(this);
         }
     }
 
     public void draw(PolygonSpriteBatch batch) {
-        for(Province p : provinces) {
+        for (Province p : provinces) {
             p.draw(batch);
         }
     }

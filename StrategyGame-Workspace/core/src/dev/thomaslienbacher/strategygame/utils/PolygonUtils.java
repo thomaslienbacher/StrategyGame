@@ -23,12 +23,12 @@ public class PolygonUtils {
         float maxWidth = bounding.width;
         float maxHeight = bounding.height;
 
-        for(int i = 0; i < ITERATIONS; i++) {
+        for (int i = 0; i < ITERATIONS; i++) {
             ArrayList<Vector2> allPoints = new ArrayList<Vector2>();
 
             //generate test points
-            for(int x = -TEST_SIZE; x < TEST_SIZE; x++) {
-                for(int y = -TEST_SIZE; y < TEST_SIZE; y++) {
+            for (int x = -TEST_SIZE; x < TEST_SIZE; x++) {
+                for (int y = -TEST_SIZE; y < TEST_SIZE; y++) {
 
                     float nx = bestPoint.x + (x * maxWidth / TEST_SIZE);
                     float ny = bestPoint.y + (y * maxHeight / TEST_SIZE);
@@ -40,14 +40,14 @@ public class PolygonUtils {
             //remove testpoints that are outside
             ArrayList<Vector2> testPoints = new ArrayList<Vector2>();
 
-            for(Vector2 v : allPoints) {
-                if(polygon.contains(v)) testPoints.add(v);
+            for (Vector2 v : allPoints) {
+                if (polygon.contains(v)) testPoints.add(v);
             }
 
             //test points
             TreeMap<Float, Vector2> sortedPoints = new TreeMap<Float, Vector2>();
 
-            for(Vector2 v : testPoints) {
+            for (Vector2 v : testPoints) {
                 sortedPoints.put(distanceToPolygon(polygon, v), v);
             }
 
@@ -65,7 +65,7 @@ public class PolygonUtils {
     private static float distanceToPolygon(Polygon polygon, Vector2 point) {
         float minDistSq = Float.POSITIVE_INFINITY;
 
-        for(int i = 0; i < polygon.getVertices().length; i++) {
+        for (int i = 0; i < polygon.getVertices().length; i++) {
             float ax = polygon.getVertices()[i++ % polygon.getVertices().length];
             float ay = polygon.getVertices()[i++ % polygon.getVertices().length];
             float bx = polygon.getVertices()[i++ % polygon.getVertices().length];
@@ -73,7 +73,7 @@ public class PolygonUtils {
 
             float d = getSegDistSq(point, new Vector2(ax, ay), new Vector2(bx, by));
 
-            if(d < minDistSq) minDistSq = d;
+            if (d < minDistSq) minDistSq = d;
         }
 
         return (float) Math.sqrt(minDistSq);
@@ -86,7 +86,7 @@ public class PolygonUtils {
         float dx = b.x - x;
         float dy = b.y - y;
 
-        if(dx != 0 || dy != 0) {
+        if (dx != 0 || dy != 0) {
             float t = ((point.x - x) * dx + (point.y - y) * dy) / (dx * dx + dy * dy);
 
             if (t > 1) {

@@ -3,8 +3,7 @@ package dev.thomaslienbacher.strategygame.scenes;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import dev.thomaslienbacher.strategygame.Game;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.utils.Utils;
 
@@ -15,7 +14,7 @@ import dev.thomaslienbacher.strategygame.utils.Utils;
  */
 public class StartupScene extends Scene {
 
-    public static float LOGO_DISPLAY_TIME = 2.0f; //how long the logo will be shown on startup in seconds
+    public static float LOGO_DISPLAY_TIME = Game.DEBUG ? 0.0f : 1.5f; //how long the logo will be shown on startup in seconds
 
     private Texture logo;
     private float logoTime = 0;

@@ -31,7 +31,7 @@ public class Data {
     }
 
     //colors
-    public static final Color TLS_BLUE = new Color((float)117 / 255, (float)183 / 255, 1.0f, 1.0f);
+    public static final Color TLS_BLUE = new Color((float) 117 / 255, (float) 183 / 255, 1.0f, 1.0f);
 
     //misc
     public static final String LOGO = "logo.png";
@@ -43,5 +43,6 @@ public class Data {
     //map
     public static final String MAP_DATA_JSON = "map/map_data_china.json";
     public static final String EMBLEM_PATH = "emblems/";
+    public static final String WATER = "map/water.png";
 
 }

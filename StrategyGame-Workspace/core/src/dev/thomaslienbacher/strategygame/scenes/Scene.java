@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import dev.thomaslienbacher.strategygame.Game;
 
@@ -43,16 +42,16 @@ public abstract class Scene implements InputProcessor {
         uistage.dispose();
     }
 
-    public final void switchTo() {
+    public void switchTo() {
         Game.setGameState(this.state);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(0, this);
-        inputMultiplexer.addProcessor(1, uistage);
+        inputMultiplexer.addProcessor(0, uistage);
+        inputMultiplexer.addProcessor(1, this);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        if(Game.DEBUG) {
+        if (Game.DEBUG) {
             Gdx.graphics.setTitle(getClass().getName());
         }
     }

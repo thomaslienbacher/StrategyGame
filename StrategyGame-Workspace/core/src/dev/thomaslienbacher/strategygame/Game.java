@@ -5,19 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.kotcrab.vis.ui.VisUI;
 import dev.thomaslienbacher.strategygame.assets.Data;
 import dev.thomaslienbacher.strategygame.assets.FontManager;
-import dev.thomaslienbacher.strategygame.gameobjects.Province;
 import dev.thomaslienbacher.strategygame.scenes.*;
-
 
 /**
  * 
@@ -28,13 +24,12 @@ public class Game extends ApplicationAdapter {
 	//constants
 	public static final int WIDTH = 1920;
 	public static final int HEIGHT = 1080; //WIDTH / 9 * 16;
-	public static final float WIDTHF = 1920;
-	public static final float HEIGHTF = 1080; //WIDTH / 9 * 16;
-	public static final float ASPECT_RATIO = (float)WIDTH / (float)HEIGHT;
-	public static final String PREFERENCES = "strategygame-prefs";
+	public static final float WIDTHF = 1920.0f;
+	public static final float HEIGHTF = 1080.0f; //WIDTH / 9 * 16;
+	public static final float ASPECT_RATIO = WIDTHF / HEIGHTF;
+	public static final String PREFERENCES = "strategy-game-prefs";
 
 	private static PolygonSpriteBatch batch;
-	private static ShapeRenderer shapeRenderer;
 	private static StretchViewport gameViewport;
 	private static StretchViewport guiViewport;
 	private static OrthographicCamera gameCam;
@@ -50,7 +45,7 @@ public class Game extends ApplicationAdapter {
 	private static GameScene gameScene;
 
 	//debug
-	public final static boolean DEBUG = false;
+	public final static boolean DEBUG = true;
 
 	@Override
 	public void create () {
@@ -78,8 +73,6 @@ public class Game extends ApplicationAdapter {
 
 		//batch
 		batch = new PolygonSpriteBatch();
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setAutoShapeType(true);
 
 		//setup loadingscene
 		startupScene = new StartupScene(GameStates.STARTUP);
@@ -113,28 +106,6 @@ public class Game extends ApplicationAdapter {
 			batch.setProjectionMatrix(gameCam.combined);
 			gameScene.render(batch);
 			gameScene.renderGUI();
-
-			shapeRenderer.setProjectionMatrix(gameCam.combined);
-			shapeRenderer.begin();
-			int i = 0;
-
-			final Color[] colors = {Color.BLACK, Color.WHITE, Color.YELLOW, Color.RED, Color.GREEN,
-					Color.OLIVE, Color.ORANGE, Color.CORAL, Color.BLUE,
-					Color.FIREBRICK, Color.CYAN, Color.MAGENTA, Color.FOREST,
-					Color.GOLD, Color.SALMON, Color.MAROON, Color.SKY};
-
-			for(Province p : gameScene.map.getProvinces()) {
-				shapeRenderer.setColor(colors[i %  colors.length]);
-				shapeRenderer.setColor(Color.BLACK);
-				shapeRenderer.polygon(p.getPolygon().getVertices());
-
-				/*Circle c = p.getCenter();
-				shapeRenderer.setColor(Color.WHITE);
-				shapeRenderer.circle(c.x, c.y, c.radius);*/
-				i++;
-			}
-
-			shapeRenderer.end();
 		}
 
 		/**
